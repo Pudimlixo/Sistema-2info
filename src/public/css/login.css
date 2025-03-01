@@ -15,14 +15,22 @@ body p{
 }
 
 nav{
+    padding:5px;
     background-color: #456EBF;
 }
 
 nav div{
-    padding:5px;
+    display:inline-flex;
+    justify-content:start;
+    align-items:center;
+    width:95%;
 }
 
 nav div a img{
+    width:45px;
+}
+
+nav > img{
     width:45px;
 }
 

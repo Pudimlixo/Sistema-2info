@@ -1,3 +1,161 @@
+/*Paleta de cores
+{ color: #1848D9; }
+{ color: #4B75F2; }
+{ color: #B6C5F2; }
+{ color: #456EBF; }
+{ color: #435373; }*/
+
 body{
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction:column;
+    background-color: #B6C5F2;
     text-align: center;
+    margin:0;
+    overflow-x:hidden;
 }
+
+body p{
+    font-family:'Arial';
+}
+
+nav{
+    padding:5px;
+    width:100%;
+    background-color: #456EBF;
+    display:flex;
+    justify-content:start;
+    text-align:center;
+}
+
+nav picture{
+    display:flex;
+    justify-content:start;
+    width:95%;
+}
+
+nav > img{
+    width:40px;
+}
+
+nav picture img{
+    width:40px;
+}
+
+header{
+    width:100%;
+    padding:10px;
+    background-color: #456EBF;
+    text-align:center;
+}
+
+header h1{
+    margin-bottom: 15px;
+    margin-top:0px;
+    font-size: 2.5em;
+    font-weight: 500;
+    font-family:'Red Hat Display';
+}
+
+header h2{
+    margin:0;
+    margin-bottom:20px;
+    color:whitesmoke;
+    font-size: 1.5em;
+    font-weight:400;
+    font-family: 'Mulish';
+}
+
+main{
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow:10px 10px 18px rgba(0, 0, 0, 0.336);
+    padding:10px;
+    margin:auto;
+    max-width:1000px;
+    min-width:300px;
+    background:white;
+}
+
+main h3{
+    color:#435373;
+    margin-top:0;
+    font-family: 'Be Vietnam Pro';
+    font-weight: 400;
+}
+
+div#botar-img{
+    margin:auto;
+}
+
+div#container-imagens{
+    display:flex;
+    justify-content: center;
+    gap:20px;
+}
+
+.picture__input{
+    display:none;
+}
+
+label.picture{
+    width:100px;
+    aspect-ratio: 16/9;
+    background-color:#1848D9;
+    color:#B6C5F2;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-radius:10px;
+    border:1px solid rgba(0, 0, 0, 0.46);
+    border-style:dashed;
+    box-shadow:10px 10px 18px rgba(0, 0, 0, 0.23);
+    transition:0.5s;
+    cursor:pointer;
+    font-family:Arial;
+}
+
+
+label.picture:hover{
+    background-color:#4f75e7;
+    color:#162e77;
+    
+}
+
+.imagem-container {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+
+.imagem-galeria {
+    width: 150px;
+    height: auto;
+    display: block;
+}
+
+.botao-excluir {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#container-imagens {
+    display: flex;
+    flex-wrap: wrap; 
+}
+
+@media (max-width: 600px) {
+    .imagem-galeria {
+        width: 100px; 
+    }
+}
+
