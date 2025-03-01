@@ -88,7 +88,7 @@ main h2{
 
 main div#container-ap{
     margin: auto;
-    width:500px;
+    max-width:500px;
 }
 
 main div p#apresentacao{
