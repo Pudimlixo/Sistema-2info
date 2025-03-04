@@ -1,0 +1,28 @@
+*Documentação - Código de bd interno(Vinícius Martins)
+
+1° - Banco de dados interno como arquivo módulo js
+
+Estrutura do código: 
+
+export const acess = [
+    {
+        "login":"Vinícius",
+        "senha":"2008"
+    },
+    {
+        "login":"Mayara",
+        "senha":"2008"
+    },
+    {
+        "login":"Rodrigo",
+        "senha":"2008"
+    }
+]
+
+Basicamente, essa estrutura trata-se de uma parte do projeto principal fazendo o papel de um banco de dados interno, em que nesse projeto principal, quando é linkado com o HTML deve ser especificado que é um módulo, definindo seu tipo como módulo com type="module", isso é necessário para poder importar/exportar arquivos JavaScript, já que módulo é como é chamado um programa principal dividido em partes.
+
+Mas como funciona esse banco de dados interno? Ele nada mais é do que uma variável composta, variável capaz de guardar mais de um dado (array), com o nome de acess, e esse array está sendo exportado para o arquivo principal, que é o módulo que vai verificar se as informações do usuário estão corretas para ser acessado o ficheiro da sala do 2° Info. O array nesse programa é declarado como uma constante com " const" e não uma variável normal com "let" e "var", isso é feito como uma boa prática, já que em programas extensos você pode sem querer mudar o conteúdo de uma variável sem querer, então declarar o array como uma constante é uma boa opção pra segurança básica do código, já que não de pode atribuir outro valor ao array acess.
+
+E o que esse array acess guarda? Basicamente, o array está guardando objetos sem nome, que vão representar os alunos da sala do 2° info, e para diferenciar os alunos, os objetos têm 2 propriedades, login (que no caso vai guardar o atributo nome do aluno) e a senha (Propriedade que vai guardar atributo senha que vai permitir acesso ao ficheiro).
+
+Relembrando: Objetos em programação também são variáveis, mas em vez de guardar dados como números, strings e valores booleanos, ele também guarda atributos dentro de propriedades. O funcionamento de um objeto é semelhante ao array, mas os índices de um array são numéricos, já os índices de um objeto são suas propriedades.

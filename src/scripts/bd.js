@@ -18,7 +18,7 @@ export const acess = [
         "senha":"senha123"
     },
     {
-        "login":"Rafaella",
+        "login":"Rafaela",
         "senha":"senha123"
     },
     {
@@ -66,7 +66,7 @@ export const acess = [
         "senha":"senha123"
     },
     {
-        "login":"Derick",
+        "login":"Dereck",
         "senha":"senha123"
     },
     {
@@ -114,10 +114,6 @@ export const acess = [
         "senha":"senha123"
     },
     {
-        "login":"Daniel O",
-        "senha":"senha123"
-    },
-    {
         "login":"Leonardo",
         "senha":"senha123"
     },
@@ -143,6 +139,10 @@ export const acess = [
     },
     {
         "login":"Rodrigo",
+        "senha":"senha123"
+    },
+    {
+        "login":"Assis",
         "senha":"senha123"
     }
 ]

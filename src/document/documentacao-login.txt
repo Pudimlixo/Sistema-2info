@@ -1,0 +1,96 @@
+*Documentação - Código que permite acesso à página
+(Vinicíus Martins)
+
+import { acess } from './bd.js' //Importação do vetor que guarda os objetos que são os usuários
+
+//Botão onde será confirmada se as credenciais são válidas ou não
+let btn = document.querySelector('button#confirm')
+function acessar(){
+    //Acesso aos inputs que contém login e senha
+    let username = document.querySelector('input#username')
+    let passW = document.querySelector('input#password')
+    let login = username.value
+    let senha = passW.value
+
+    //Parte de controle
+    let control = false
+
+
+    //Será feito um percurso no vetor com os objetos e será analisado se o nome e senha tem no banco de dados
+    acess.find(function(user){
+        if (login == user.login & senha == user.senha){
+            control = true
+        }
+    })
+
+    //Controle de acesso da página de login de acordo com o valor das credenciais
+    if (control){
+         location.href = "../pages/galery.html"
+         localStorage.token = senha
+    } else{
+        window.alert(`Acesso negado, senha ou nome errados`)
+    }
+}
+btn.addEventListener('click', acessar)
+
+O código começa com a importação do array que guarda as informações dos usuários no arquivo módulo que é o principal.
+
+Código citado acima: import { acess } from './bd.js
+
+Depois disso, será criada uma variável que vai guardar o componente do botão no HTML, esse botão vai ser responsável por ativar a verificação do nome e senha do usuário através da função acessar()
+
+Código citado acima: let btn = document.querySelector('button#confirm')
+
+Para a função ser executada com o clique do botão, é necessário adicionar um método que aciona a função e o tipo de ação que tem que ser feita com o botão para o código ser executado, que nesse caso a ação tem que ser de clique do mouse no botão.
+
+Código citado acima: btn.addEventListener('click', acessar) Bem no final do código.
+
+Depois, ainda usando o DOM, é necessário pegar os valores dos inputs que guardam o nome e a senha. Mas para pegar os valores dos inputs, tem que pegar os componentes inputs em si pelo querySelector.
+
+Código citado acima:
+let username = document.querySelector('input#username')
+let passW = document.querySelector('input#password')
+
+
+E depois, com os inputs já em variáveis, é necessário criar outras variáveis para pegar os valores dentro desses inputs com o método .value
+
+Código citado acima:
+let login = username.value
+let senha = passW.value
+
+Agora, após já ter o botão que vai executar a função de verificar e os valores dos inputs que serão nome do aluno e senha, é necessário criar a lógica da função que permita verificar se aquele nome e senha existam no banco de dados interno.
+
+Primeiro, a lógica gira em torno de uma variável chamada control e atribuindo um valor booleano falso pra ela. essa variável vai ser responsável por ser a chave de acesso para quando uma condição for satisfeita, ela mudar seu valor para true e assim dar acesso à página interna.
+
+Código citado acima: let control = false
+
+Agora a parte mais complexa é o percurso do array acess, será feita uma lógica com o método find() que vai percorrer o array acess e analisar cada objeto.
+
+Código citado acima: acess.find(function(user){
+        if (login == user.login & senha == user.senha){
+            control = true
+        }
+    })
+
+O método find() será usado no array, esse é um método que vai analisar todos os objetos do array para tentar "encontrar" alguma informação, que logicamente é o nome de usuário e a senha correta para acesso à página, mas como isso ocorre? E é simples, através dessa função: 
+function(user){
+        if (login == user.login & senha == user.senha){
+            control = true
+        }
+    }
+
+Essa função como podemos ver, é um parâmetro do método find(), que vai ter uma lógica para ser analisado se o nome/senha que o usuário digitar nos inputs tem no banco de dados interno, tal função tem o parâmetro "user", o user é um nome genérico dado aos objetos dentro do array acess pela função, e dentro dessa função tem uma condicional que verifica se os valores dos inputs tem no bd, caso tenha, a variável control passa a ter o valor = true, o que faz aquele método .find parar de procurar algo no array acess, já que ele já achou as credenciais digitadas pelo usuário no banco de dados.
+
+Agora, a partir do resultado da variável control, será analisado esse resultado e determinar se o usuário pode ou não acessar a página.
+
+Código citado acima: 
+if (control){
+         location.href = "../pages/galery.html"
+         localStorage.token = senha
+    } else{
+        window.alert(`Acesso negado, senha ou nome errados`)
+    }
+
+Essa condição verifica o valor do control, se for true, (que no caso, só é true se for encontrado o nome e senha no bd com a função anterior), o usuário pode acessar a página de ficheiro, visto no comando location.href="", e além do mais a senha é guardada temporariamente no navegador pelo comando localStorage.token, a senha vira um token. (Um token é um valor que erve como credencial para acessar alguma coisa de um sistema) -> Ainda tem que ser estudado.
+
+E caso o valor da variável control for false, (que acontece se não for achado o nome e senha no bd), o navegador mostra uma mensagem de acesso negado.

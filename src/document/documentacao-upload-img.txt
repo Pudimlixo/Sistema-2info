@@ -1,0 +1,218 @@
+
+document.addEventListener('DOMContentLoaded', function () {
+    //Pega o elemento input onde o usuário poderá adicionar as imagens e o local onde as imagens selecionadas na galeria ficarão 
+    const pictureInput = document.querySelector('.picture__input')
+    const containerImagens = document.getElementById('container-imagens')
+
+    //Define uma constante onde verifica o limite de imagens que poderá ser adicionado no site, que no caso é 40 (Uma para cada aluno)
+    const maxImagens = 40
+
+    //Chamada da função que será responsável por armazenar imagens no localStorage e fazer elas aparecerem na página
+    carregarImagensSalvas()
+
+    //Evento adicionado no input das imagens, onde o evento DOM em questão é o Change, esse evento permite que ocorra um comportamento se aquele elemento(input) for alterado, no caso o input é definido como undefined como valor padrão e após a adição da imagem, é que seu valor muda, acionando o evento "change"
+    pictureInput.addEventListener('change', function (event) {
+        const files = event.target.files //Constante criada que se chama files, guarda parâmetro event da função que usa o atributo target.files, esse método é responsável por separar as imagens colocadas pelo usuário em um array de objetos, e cada objeto seria uma imagem diferente que o usuário colocaria no site.
+
+        //Condição que verifica se o usuário selecionou algum arquivo da sua galeria após clicar no input, ele verifica se a constante files tem já um objeto (que seria quando o usuário seleciona imagem da galeria e o atributo target.files bota esse objeto num array) e files[0], que seria a primeira qualquer imagem selecionada da galeria existe, assim chamando a função que verifica se pode adicionar imagens tendo o primeiro arquvio selecionado pelo usuário como parâmetro
+        if (files && files[0]) {
+            adicionarImagem(files[0])
+        }
+    })
+
+
+    function adicionarImagem(file) {
+         //Função que tem condição que verifica se as imagens que estão dentro do container ultrapassam 40, se for o caso, ele disabnilita a possibilidade de adicionar imagens pelo input com o atributo .disable, essa função usa como praêmtro um nome file, que é referenciado na chamada como files[0] (Arquivo selecionado por usuário na sua galeria)
+
+        if (containerImagens.children.length >= maxImagens) {
+            //Caso o limite seja ultrapassado. o alerta é mostrado na tela, avisando isso
+            window.alert('Número máximo de imagens atingido!')
+            pictureInput.disabled = true
+            return
+        }
+
+    /*
+    const reader = new FileReader()
+
+    FileReader: Este é um objeto JavaScript que permite ler o conteúdo de arquivos armazenados no computador do usuário (ou em blobs/buffers de dados) de forma assíncrona.
+    new FileReader(): Esta linha cria uma nova instância do objeto FileReader e a armazena na constante reader.
+    2. reader.onload = function(e){ ... }
+    
+    reader.onload: Esta propriedade do objeto FileReader define uma função de retorno de chamada (callback function) que será executada quando a leitura do arquivo for concluída com sucesso.
+    function(e){ ... }: Esta é a função de retorno de chamada. O parâmetro e representa o objeto de evento, que contém informações sobre o evento de carregamento.
+    3. const novaImagemContainer = document.createElement('div')
+    
+    document.createElement('div'): Esta linha cria um novo elemento div no DOM.
+    const novaImagemContainer = ...: A referência ao novo elemento div é armazenada na constante novaImagemContainer. Este div servirá como um contêiner para a imagem e o botão de exclusão.
+    4. novaImagemContainer.classList.add('imagem-container')
+    
+    novaImagemContainer.classList.add('imagem-container'): Esta linha adiciona a classe CSS imagem-container ao elemento novaImagemContainer. Isso permite aplicar estilos CSS específicos a este contêiner.
+    5. const novaImagem = document.createElement('img')
+    
+    document.createElement('img'): Esta linha cria um novo elemento img no DOM.
+    const novaImagem = ...: A referência ao novo elemento img é armazenada na constante novaImagem.
+    6. novaImagem.src = e.target.result
+    
+    e.target.result: Esta propriedade do objeto de evento e contém o resultado da leitura do arquivo como uma URL de dados (data URL).
+    novaImagem.src = ...: Esta linha define o atributo src do elemento img com a URL de dados, exibindo a imagem.
+    7. novaImagem.classList.add('imagem-galeria')
+    
+    novaImagem.classList.add('imagem-galeria'): Esta linha adiciona a classe CSS imagem-galeria ao elemento img, permitindo aplicar estilos CSS específicos à imagem.
+    8. novaImagemContainer.appendChild(novaImagem)
+    
+    novaImagemContainer.appendChild(novaImagem): Esta linha adiciona o elemento img como filho do elemento novaImagemContainer.
+    9. const botaoExcluir = document.createElement('button')
+    
+    document.createElement('button'): Esta linha cria um novo elemento button no DOM.
+    const botaoExcluir = ...: A referência ao novo elemento button é armazenada na constante botaoExcluir.
+    10. botaoExcluir.textContent = 'Excluir'
+    
+    botaoExcluir.textContent = 'Excluir': Esta linha define o texto do botão como "Excluir".
+    11. botaoExcluir.classList.add('botao-excluir')
+    
+    botaoExcluir.classList.add('botao-excluir'): Esta linha adiciona a classe CSS botao-excluir ao elemento button, permitindo aplicar estilos CSS específicos ao botão.
+    12. botaoExcluir.addEventListener('click', function() { excluirImagem(novaImagemContainer, e.target.result); });
+    
+    botaoExcluir.addEventListener('click', function() { ... }): Esta linha adiciona um ouvinte de eventos ao botão para o evento click.
+    excluirImagem(novaImagemContainer, e.target.result): Quando o botão é clicado, esta linha chama a função excluirImagem() e passa o contêiner da imagem e a URL de dados da imagem como argumentos.
+    13. novaImagemContainer.appendChild(botaoExcluir)
+    
+    novaImagemContainer.appendChild(botaoExcluir): Esta linha adiciona o elemento button como filho do elemento novaImagemContainer.
+    14. containerImagens.appendChild(novaImagemContainer)
+    
+    containerImagens.appendChild(novaImagemContainer): Esta linha adiciona o elemento novaImagemContainer (que contém a imagem e o botão) como filho do elemento containerImagens, exibindo a imagem na galeria.
+    15. salvarImagemLocalmente(e.target.result)
+    
+    salvarImagemLocalmente(e.target.result): Esta linha chama a função salvarImagemLocalmente() e passa a URL de dados da imagem como argumento, salvando a imagem no localStorage.
+    16. reader.readAsDataURL(file)
+    
+    reader.readAsDataURL(file): Esta linha inicia a leitura do arquivo selecionado pelo usuário como uma URL de dados. Quando a leitura for concluída, o evento onload será disparado e a função de retorno de chamada será executada.*/
+        const reader = new FileReader()
+        reader.onload = function (e) {
+            const novaImagemContainer = document.createElement('div') // Container para imagem e botão
+            novaImagemContainer.classList.add('imagem-container')
+
+            const novaImagem = document.createElement('img')
+            novaImagem.src = e.target.result
+            novaImagem.classList.add('imagem-galeria')
+            novaImagemContainer.appendChild(novaImagem)
+
+            const botaoExcluir = document.createElement('button')
+            botaoExcluir.textContent = 'Excluir'
+            botaoExcluir.classList.add('botao-excluir')
+
+            botaoExcluir.addEventListener('click', function () {
+                excluirImagem(novaImagemContainer, e.target.result)
+            })
+            novaImagemContainer.appendChild(botaoExcluir)
+
+            containerImagens.appendChild(novaImagemContainer)
+            salvarImagemLocalmente(e.target.result)
+        }
+        reader.readAsDataURL(file)
+    }
+
+    function excluirImagem(imagemContainer, imagemDataURL) {
+        containerImagens.removeChild(imagemContainer)
+        removerImagemLocalmente(imagemDataURL)
+
+        if (containerImagens.children.length < maxImagens) {
+            pictureInput.disabled = false
+        }
+    }
+
+    function salvarImagemLocalmente(imagemDataURL) {
+        let imagens = JSON.parse(localStorage.getItem('imagens')) || []
+        imagens.push(imagemDataURL);
+        localStorage.setItem('imagens', JSON.stringify(imagens))
+    }
+
+    function removerImagemLocalmente(imagemDataURL) {
+        let imagens = JSON.parse(localStorage.getItem('imagens')) || []
+        imagens = imagens.filter(img => img !== imagemDataURL)
+        localStorage.setItem('imagens', JSON.stringify(imagens))
+    }
+
+    function carregarImagensSalvas() {
+        const imagensSalvas = JSON.parse(localStorage.getItem('imagens')) || []
+        imagensSalvas.forEach(function (imagem) {
+            const novaImagemContainer = document.createElement('div')
+            novaImagemContainer.classList.add('imagem-container')
+
+            const novaImagem = document.createElement('img')
+            novaImagem.src = imagem;
+            novaImagem.classList.add('imagem-galeria')
+            novaImagemContainer.appendChild(novaImagem)
+
+            const botaoExcluir = document.createElement('button')
+            botaoExcluir.textContent = 'Excluir'
+            botaoExcluir.classList.add('botao-excluir')
+            botaoExcluir.addEventListener('click', function () {
+                excluirImagem(novaImagemContainer, imagem)
+            })
+            novaImagemContainer.appendChild(botaoExcluir)
+
+            containerImagens.appendChild(novaImagemContainer)
+        })
+
+        if (containerImagens.children.length >= maxImagens) {
+            pictureInput.disabled = true
+        }
+    }
+})
+
+
+//Explicação da última parte do código: 
+
+/*function excluirImagem(imagemContainer, imagemDataURL) { ... }
+
+Propósito: Esta função remove uma imagem da galeria e do armazenamento local.
+containerImagens.removeChild(imagemContainer):
+Remove o elemento imagemContainer (que contém a imagem e o botão de exclusão) do contêiner de imagens (containerImagens). Isso remove a imagem da exibição na página.
+removerImagemLocalmente(imagemDataURL):
+Chama a função removerImagemLocalmente() para remover a URL de dados da imagem do localStorage. Isso garante que a imagem não seja carregada novamente quando a página for recarregada.
+if (containerImagens.children.length < maxImagens) { pictureInput.disabled = false }:
+Verifica se o número de imagens no contêiner é menor que o número máximo permitido (maxImagens).
+Se for menor, habilita o elemento de entrada de arquivo (pictureInput), permitindo que o usuário adicione mais imagens.
+
+
+2. function salvarImagemLocalmente(imagemDataURL) { ... }
+
+Propósito: Esta função salva a URL de dados de uma imagem no localStorage.
+let imagens = JSON.parse(localStorage.getItem('imagens')) || []:
+Tenta recuperar a lista de URLs de dados de imagens do localStorage usando a chave 'imagens'.
+JSON.parse() converte a string JSON armazenada em um array JavaScript.
+Se a chave 'imagens' não existir ou se o valor armazenado não for um JSON válido, um array vazio ([]) é atribuído a imagens.
+imagens.push(imagemDataURL):
+Adiciona a URL de dados da imagem (imagemDataURL) ao array imagens.
+localStorage.setItem('imagens', JSON.stringify(imagens)):
+Converte o array imagens em uma string JSON usando JSON.stringify() e armazena-o no localStorage com a chave 'imagens'.
+
+
+3. function removerImagemLocalmente(imagemDataURL) { ... }
+
+Propósito: Esta função remove uma URL de dados de imagem do localStorage.
+let imagens = JSON.parse(localStorage.getItem('imagens')) || []:
+Recupera a lista de URLs de dados de imagens do localStorage, como na função salvarImagemLocalmente().
+imagens = imagens.filter(img => img !== imagemDataURL):
+Cria um novo array imagens que contém apenas as URLs de dados que são diferentes da URL de dados da imagem a ser removida (imagemDataURL).
+localStorage.setItem('imagens', JSON.stringify(imagens)):
+Atualiza o localStorage com o novo array imagens filtrado.
+
+4 - function carregarImagensSalvas() { ... }
+
+Propósito: Esta função carrega as imagens salvas no localStorage e as exibe na galeria.
+const imagensSalvas = JSON.parse(localStorage.getItem('imagens')) || []:
+Recupera a lista de URLs de dados de imagens do localStorage, como nas funções anteriores.
+imagensSalvas.forEach(function (imagem) { ... }):
+Itera sobre cada URL de dados de imagem no array imagensSalvas.
+Dentro do loop:
+Cria um novo elemento div (novaImagemContainer) para conter a imagem e o botão de exclusão.
+Cria um novo elemento img (novaImagem) e define seu atributo src com a URL de dados da imagem.
+Cria um novo elemento button (botaoExcluir) para excluir a imagem.
+Adiciona um ouvinte de eventos ao botão de exclusão para chamar a função excluirImagem() quando o botão for clicado.
+Adiciona a imagem e o botão ao contêiner novaImagemContainer.
+Adiciona o contêiner novaImagemContainer ao contêiner de imagens (containerImagens).
+if (containerImagens.children.length >= maxImagens) { pictureInput.disabled = true }:
+Verifica se o número de imagens no contêiner é maior ou igual ao número máximo permitido.
+Se for, desabilita o elemento de entrada de arquivo (pictureInput), impedindo que o usuário adicione mais imagens.*/
